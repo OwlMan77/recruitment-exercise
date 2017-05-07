@@ -1,6 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
 import * as c3 from 'c3';
+
 /**
  * Generated class for the Dashboard page.
  *
@@ -15,10 +18,21 @@ import * as c3 from 'c3';
 
 export class Dashboard {
   @ViewChild('dashboardDonut') dashboardDonut: ElementRef;
-  //added child selector
+  //added child selector line graph
   @ViewChild('dashboardLine') dashboardLine: ElementRef;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
+  this.http;
   }
+
+  //API call function
+  getInfo(){
+    let Date1 = (<HTMLInputElement>document.getElementById("startDate")).value;
+    let Date2 = (<HTMLInputElement>document.getElementById("endDate")).value;
+    this.http.get(`https://test-calendar.herokuapp.com/?from=${Date1}&to=${Date2}`).map(res => res.json()).subscribe(data => {
+      // display raw data to show it is working
+      console.log(data);
+    });
+  };
 
 ionViewDidLoad() {
 
@@ -53,7 +67,5 @@ ionViewDidLoad() {
             title: (100).toString()
         }
     });
-
-
 }
 }

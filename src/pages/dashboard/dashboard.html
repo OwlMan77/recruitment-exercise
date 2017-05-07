@@ -18,6 +18,11 @@
 <ion-content>
   <!-- Placeholder image to use as a guide. Remove this when you are ready -->
 <img src="/assets/dashboard-design.png" />
+  <form >
+    <input id="startDate" type="Date">
+    <input id="endDate" type="Date">
+    <button (click)="getInfo()"></button>
+</form>
   <div>
     <div id="lineBox">
       <div id="dashboardLine" #dashboardLine></div>
