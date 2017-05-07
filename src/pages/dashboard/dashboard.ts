@@ -4,12 +4,6 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import * as c3 from 'c3';
 
-/**
- * Generated class for the Dashboard page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-dashboard',
@@ -20,23 +14,30 @@ export class Dashboard {
   @ViewChild('dashboardDonut') dashboardDonut: ElementRef;
   //added child selector line graph
   @ViewChild('dashboardLine') dashboardLine: ElementRef;
+  //Private prorperty on http:Http, to make http available to the whole component
   constructor(public navCtrl: NavController, public navParams: NavParams, private http: Http) {
   this.http;
   }
-
+  private graphData = [];
   //API call function
   getInfo(){
     let Date1 = (<HTMLInputElement>document.getElementById("startDate")).value;
     let Date2 = (<HTMLInputElement>document.getElementById("endDate")).value;
-    this.http.get(`https://test-calendar.herokuapp.com/?from=${Date1}&to=${Date2}`).map(res => res.json()).subscribe(data => {
+    //gets the values from the two date fields then maps them to be
+
+    this.http.get(`https://test-calendar.herokuapp.com/?from=${Date1}&to=${Date2}`).map(res => res.json())
+      .subscribe(data => {
       // display raw data to show it is working
-      console.log(data);
+
+      //loops through the data based off the number of it's subkeys and pushes it into an array
+      for (let i = 0; i < Object("data").length; i++){
+        this.graphData.push(data.calendar[i]);
+      }
+      console.log(this.graphData);
     });
   };
 
 ionViewDidLoad() {
-
-  //Here's a nice little dummy pie chart to get you started. More details about how to use C3 charts can be found here: http://c3js.org/examples.html. Good luck and have fun!
 
   //Line Chart
   let dashboardLineArea = this.dashboardLine.nativeElement;
