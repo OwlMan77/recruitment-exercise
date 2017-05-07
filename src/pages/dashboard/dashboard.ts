@@ -14,16 +14,23 @@ import * as c3 from 'c3';
 })
 
 export class Dashboard {
-  @ViewChild('dashboardChart') dashboardChart: ElementRef;
+  @ViewChild('dashboardDonut') dashboardDonut: ElementRef;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
 ionViewDidLoad() {
 
   //Here's a nice little dummy pie chart to get you started. More details about how to use C3 charts can be found here: http://c3js.org/examples.html. Good luck and have fun!
-    let dashboardChartArea = this.dashboardChart.nativeElement;
+
+  //Line Chart
+
+
+
+
+  //Donut Chart
+    let dashboardDonutArea = this.dashboardDonut.nativeElement;
     c3.generate({
-        bindto: dashboardChartArea,
+        bindto: dashboardDonutArea,
         data: {
             type: 'donut',
             columns: [
