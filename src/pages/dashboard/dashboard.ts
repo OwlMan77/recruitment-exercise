@@ -17,8 +17,12 @@ export class Dashboard {
 line: any;
 donut: any
 graphDataDonut: any;
+graphDataLine: any;
 graphDataNames: any;
 graphData: any;
+Date1: any;
+Date2: any;
+
   @ViewChild('dashboardDonut') dashboardDonut: ElementRef;
   //added child selector line graph
   @ViewChild('dashboardLine') dashboardLine: ElementRef;
@@ -27,48 +31,84 @@ graphData: any;
     this.http;
     this.line;
     this.donut;
-    this.graphDataDonut;
-    this.graphDataNames;
-    this.graphData;
+    this.graphDataDonut = {Unavailable:0};
+    this.graphDataLine  = {};
+    this.graphDataNames = [];
+    this.Date1;
+    this.Date2;
+    //this.Months         = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", //"Nov", "Dec"];
   }
 
 
   //API call function
   getInfo(){
-
     //gets the values from the two date fields then maps them to be
     let Date1 = (<HTMLInputElement>document.getElementById("startDate")).value;
     let Date2 = (<HTMLInputElement>document.getElementById("endDate")).value;
-    this.graphDataDonut = {};
-    this.graphDataNames = [];
-    this.graphData      = {Unavailable:0};
     this.http.get(`https://test-calendar.herokuapp.com/?from=${Date1}&to=${Date2}`).map(res => res.json())
       .subscribe(data => {
         //display raw data to show it is working
       //loops through the data based off the number of it's subkeys and pushes it into an array
       for (let i = 0; i < data.calendar.length; i++){
-        this.dataAssign(data.calendar[i]);
+        this.dataDonutAssign(data.calendar[i]);
+        this.dataLineAssign(data.calendar[i]);
         this.dataNameAssign(data.calendar[i]);
       }
           })
+          console.log(this.graphDataLine);
+          console.log(this.graphDataDonut);
 
+            //Line Chart
+            let dashboardLineArea = this.dashboardLine.nativeElement;
+            this.line = c3.generate({
+            bindto: dashboardLineArea,
+            data: {
+            json: this.graphDataLine,
+            type: 'line'
+                }
 
-      //console.log(this.graphData);
-      //console.log(this.graphDataDonut);
-      //console.log(this.graphDataNames);
-    });
+            });
+
+            //Donut Chart
+            let dashboardDonutArea = this.dashboardDonut.nativeElement;
+             this.donut = c3.generate({
+                 bindto: dashboardDonutArea,
+                 data: {
+                      type: 'donut',
+                     json: [this.graphDataDonut],
+                      keys: {
+                        value: ['Airbnb', 'Homeaway', 'Booking.com', 'Unavailable']
+                      },
+                  },
+                  donut: {
+                      title: 'Percentage here'
+                  }
+                })
+      this.graphDataDonut = {Unavailable:0};
+      this.graphDataLine = [];
+      this.graphDataNames = [];
   };
 
-  dataAssign(data){
-      if (this.graphData[data.source] == null && data.source != null){
-        this.graphData[data.source] = data.nights;
+  dataDonutAssign(data){
+      if (this.graphDataDonut[data.source] == null && data.source != null){
+        this.graphDataDonut[data.source] = data.nights;
       }
       else if( data.source != null && data.nights != null){
-        this.graphData[data.source] += data.nights;
+        this.graphDataDonut[data.source] += data.nights;
+
       }
       else if( data.source == null && data.nights != null ){
-      console.log(this.graphData['Unavailable']);
-        this.graphData['Unavailable'] += data.nights;
+        this.graphDataDonut['Unavailable'] += data.nights;
+      }
+  }
+
+  dataLineAssign(data){
+      if (this.graphDataLine[data.source] == null && data.gbp_price != null){
+        this.graphDataLine[data.source] = [data.gbp_price];
+
+      }
+      else if( data.source != null && data.gbp_price != null){
+        this.graphDataLine[data.source].push(data.gbp_price);
       }
   }
 
@@ -82,32 +122,9 @@ graphData: any;
   }
 
 
-    //buildLineGraph(){
-      //let dashboardLineArea = this.dashboardLine.nativeElement;
-      //this.line = c3.generate({
-      //bindto: dashboardLineArea,
-      //data: {
-      //json: this.graphData,
-      //keys: {
-      //          x: 'date',
-      //          value:['gbp_price']
-      //          }
-      //        },
-      //         axis: {
-      //          x: {
-      //           type: 'line'
-      //          }
-      //        }
-      //      });
-    //}
 
 
-ionViewWillEnter() {
-  //console.log(this.graphData);
-  //Line Chart
-  //this.buildLineGraph();
-  //Donut Chart
-  e§
+ionViewDidLoad() {
 }
 
 }

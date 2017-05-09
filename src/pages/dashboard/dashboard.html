@@ -21,10 +21,17 @@
 
 
 <ion-content>
+  <ion-item>
+    <ion-label>Start Date</ion-label>
+  <ion-datetime displayFormat="MMMM" min="2017" pickerFormat="DD-MM-YYYY" ></ion-datetime>
+</ion-item>
+  <ion-item>
+    <ion-label>End Date</ion-label>
+    <ion-datetime displayFormat="MMMM"min="2017" pickerFormat="DD-MM-YYYY" ></ion-datetime>
+  </ion-item>
   <form>
-    <input id="startDate" type="Date" value="2017-01-01">
-    <input id="endDate" type="Date" value="2017-08-31">
-    <button (click)="getInfo()"></button>
+    <input id="" type="Date" (change)="getInfo()">
+    <input id="startDate" type="Date">
 </form>
   <div id="donutBox">
     <div id="dashboardDonut" #dashboardDonut></div>
