@@ -14,6 +14,7 @@ import * as c3 from 'c3';
 
 
 export class Dashboard {
+//setting up properties and  and constructor
 line: any;
 donut: any
 graphDataDonut: any;
@@ -148,7 +149,6 @@ moneyList:any;
 
 
 ionViewDidLoad() {
-console.log(this.moneyList);
 }
 
 }
