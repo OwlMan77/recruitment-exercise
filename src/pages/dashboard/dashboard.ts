@@ -34,8 +34,6 @@ Date2: any;
     this.graphDataDonut = {Unavailable:0};
     this.graphDataLine  = {};
     this.graphDataNames = [];
-    this.Date1;
-    this.Date2;
     //this.Months         = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", //"Nov", "Dec"];
   }
 
