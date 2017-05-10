@@ -22,7 +22,8 @@ graphDataNames: any;
 graphData: any;
 Date1: any;
 Date2: any;
-
+Months: any;
+moneyList:any;
   @ViewChild('dashboardDonut') dashboardDonut: ElementRef;
   //added child selector line graph
   @ViewChild('dashboardLine') dashboardLine: ElementRef;
@@ -34,7 +35,8 @@ Date2: any;
     this.graphDataDonut = {Unavailable:0};
     this.graphDataLine  = {};
     this.graphDataNames = [];
-    //this.Months         = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", //"Nov", "Dec"];
+    this.moneyList      = [];
+    this.Months         = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
   }
 
 
@@ -51,6 +53,7 @@ Date2: any;
         this.dataDonutAssign(data.calendar[i]);
         this.dataLineAssign(data.calendar[i]);
         this.dataNameAssign(data.calendar[i]);
+        this.dataMoneyList(data.calendar[i]);
       }
           })
           console.log(this.graphDataLine);
@@ -85,6 +88,7 @@ Date2: any;
       this.graphDataDonut = {Unavailable:0};
       this.graphDataLine = [];
       this.graphDataNames = [];
+      console.log(this.moneyList);
   };
 
   dataDonutAssign(data){
@@ -119,10 +123,20 @@ Date2: any;
     }
   }
 
+  dataMoneyList(data){
+    if(this.moneyList.indexOf(data.source) === -1 && data.source != null){
+      this.moneyList[data.source] = data.gbp_price;
+    }
+    else if(this.moneyList[data.source] != null && data.source != null){
+      this.moneyList[data.source] += data.gbp_price;
+    }
+
+  }
 
 
 
 ionViewDidLoad() {
+console.log(this.moneyList);
 }
 
 }

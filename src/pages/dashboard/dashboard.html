@@ -18,11 +18,12 @@
 
 <ion-content>
   <form>
-    <input id="startDate" type="Date" (change)="getInfo()">
-    <input id="endDate" type="Date">
+    <input id="startDate" type="Date" min="2017-01-01" (change)="getInfo()">
+    <input id="endDate" type="Date" min="2017-01-02" (change)=getInfo()>
 </form>
   <div id="donutBox">
     <div id="dashboardDonut" #dashboardDonut></div>
+    <div ng-repeat="(key, value) in moneyList">{{key}} : {{value}}</div>
   </div>
   <div>
     <div id="lineBox">
